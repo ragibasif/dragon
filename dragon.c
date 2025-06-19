@@ -13,3 +13,32 @@
  */
 
 #include "dragon.h"
+
+//------------------------------------------------------------------------------
+// Bit Fiddling (Int)
+//------------------------------------------------------------------------------
+
+// NOTE: n & (n - 1) == n with its lowest set bit erased
+
+// time: O(N)
+int d_count_bits(int n) {
+    int num_bits = 0;
+    while (n) {
+        num_bits += n & 1;
+        n >>= 1;
+    }
+    return num_bits;
+}
+
+// 1 if # of 1s in the word is odd, otherwise 0
+// brute force method, time: O(N)
+// iteratively check the value of each bit and count ones
+// we only care if there are odd or even number of ones so store it mod 2
+int d_compute_parity(int n) {
+    int result = 0;
+    while (n) {
+        result ^= n & 1;
+        n >>= 1;
+    }
+    return result;
+}

@@ -1,4 +1,13 @@
-# Makefile
+# File: Makefile
+# Author: Ragib Asif
+# Email: ragib.asif30@myhunter.cuny.edu
+# GitHub: https://github.com/ragibasif
+# LinkedIn: https://www.linkedin.com/in/ragibasif/
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Ragib Asif
+# Version 1.0.0
+#
+# Project building rules.
 
 RESET=\033[0m
 BOLD=\033[1m
@@ -31,29 +40,33 @@ OBJS := $(patsubst %.c, $(BUILD_DIRECTORY)/%.o, $(SRCS))
 all: $(EXEC_PATH)
 
 check:
-	@which $(CC) > /dev/null && echo "$(SUCCESS)✅ SUCCESS:$(RESET) $(CC) is installed" || echo "$(ERROR)❌ ERROR:$(RESET) $(CC) not found, please install $(CC)"
-	@which $(DBG) > /dev/null && echo "$(SUCCESS)✅ SUCCESS:$(RESET) $(DBG) is installed" || echo "$(ERROR)❌ ERROR:$(RESET) $(DBG) not found, please install $(DBG)"
+	@echo "$(INFO)make check$(RESET)"
+	@which $(CC) > /dev/null && echo "$(SUCCESS)SUCCESS:$(RESET) $(CC) is installed" || echo "$(ERROR)ERROR:$(RESET) $(CC) not found, please install $(CC)"
+	@which $(DBG) > /dev/null && echo "$(SUCCESS)SUCCESS:$(RESET) $(DBG) is installed" || echo "$(ERROR)ERROR:$(RESET) $(DBG) not found, please install $(DBG)"
 
 $(EXEC_PATH): $(OBJS)
-	@echo "🔧 Linking $(INFO)$@$(RESET) ..."
+	@echo "$(INFO)Linking$(RESET) $@ ..."
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) && \
-		echo "$(SUCCESS)✅ Build successful:$(RESET) $@" || \
-		(echo "$(ERROR)❌ Linking failed:$(RESET) $@" && exit 1)
+		echo "$(SUCCESS)SUCCESS$(RESET) Built $@" || \
+		(echo "$(ERROR)ERROR$(RESET) Failed to link $@" && exit 1)
 
 $(BUILD_DIRECTORY)/%.o: %.c
-	@echo "🔧 Compiling $(INFO)$<$(RESET) ..."
+	@echo "$(INFO)Compiling$(RESET) $< ..."
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ && \
-		echo "$(SUCCESS)✅ Compiled:$(RESET) $<" || \
-		(echo "$(ERROR)❌ Compile failed:$(RESET) $<" && exit 1)
+		echo "$(SUCCESS)SUCCESS:$(RESET) Compiled $<" || \
+		(echo "$(ERROR)ERROR$(RESET) Failed to compile $<" && exit 1)
 
 
 debug: $(EXEC_PATH)
+	@echo "$(INFO)make debug$(RESET)"
+	@echo "$(DBG) ./$(EXEC_PATH)"
 	@$(DBG) ./$(EXEC_PATH)
 
 clean:
-	@echo "$(INFO)make clean$(RESET) $(RM) -r $(EXEC_PATH) $(OBJS) $(BUILD_DIRECTORY) *~ *.bak *.dSYM *.out .*.un~"
+	@echo "$(INFO)make clean$(RESET)"
+	@echo "$(RM) -r $(EXEC_PATH) $(OBJS) $(BUILD_DIRECTORY) *~ *.bak *.dSYM *.out .*.un~"
 	@$(RM) -r $(EXEC_PATH) $(OBJS) $(BUILD_DIRECTORY) *~ *.bak *.dSYM *.out .*.un~
 
 
