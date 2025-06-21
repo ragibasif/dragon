@@ -1,5 +1,5 @@
 /*
- * File: dragon.c
+ * File: d_bit_fiddling.c
  * Author: Ragib Asif
  * Email: ragib.asif30@myhunter.cuny.edu
  * GitHub: https://github.com/ragibasif
@@ -8,17 +8,15 @@
  * Copyright (c) 2025 Ragib Asif
  * Version 1.0.0
  *
- * C utility library.
+ *
+ * Notes:
+ *      - n & (n - 1) == n with its lowest set bit erased
+ *
+ *
  *
  */
 
-#include "dragon.h"
-
-//------------------------------------------------------------------------------
-// Bit Fiddling (Int)
-//------------------------------------------------------------------------------
-
-// NOTE: n & (n - 1) == n with its lowest set bit erased
+#include "../dragon.h"
 
 // time: O(N)
 int d_count_bits(int n) {

@@ -19,8 +19,10 @@ int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
 
-    dbg(d_count_bits(2342432));
-    dbg(d_compute_parity(2342432));
+    struct d_location *location;
+    location = d_location_create(location, __FILE__, __LINE__, __func__);
+    d_location_memory_dump(location);
+    d_location_destroy(location);
 
     forge_run();
     return 0;

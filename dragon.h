@@ -42,6 +42,7 @@ extern "C" {
 #include <assert.h> // assert
 #include <ctype.h>
 #include <limits.h>  // INT_MAX, INT_MIN
+#include <pthread.h> // pthread
 #include <stdarg.h>  // va_args, va_end, va_start, va_list
 #include <stdbool.h> // bool, true, false
 #include <stddef.h>
@@ -51,90 +52,92 @@ extern "C" {
 #include <string.h> // strlen, memcpy, strcpy
 #include <time.h>   // time
 
+#include "third_party/internal_debug.h" // internal mem debug and print debug
+
 //------------------------------------------------------------------------------
 // Utility Macros
 //------------------------------------------------------------------------------
 
-#define MOD(a, b) ((a) % (b) + (b)) % (b)
+#define D_MOD(a, b) ((a) % (b) + (b)) % (b)
 
-#define PI 3.14159265358979323846f
-#define ABS(val) ((val) < 0) ? -(val) : (val)
-#define AREA(l, w) (l * w)
-#define AVERAGE(val1, val2) (((double)(val1) + (val2)) / 2.0)
-#define BIT_CHK(bit, reg) ((reg >> (bit)) & 1)
-#define BIT_CLR(value, bit) ((value) &= ~(1L << (bit)))
-#define BIT_LSB(reg) ((reg) & 1)
-#define BIT_SET(value, bit) ((value) |= (1L << (bit)))
-#define CIRCUMFERENCE(radius) (PI * radious * radious) // circle circumference
-#define IN_RANGE(x, lo, hi) (((x > lo) && (x < hi)) || (x == lo) || (x == hi))
-#define IS_EVEN(x) !BIT_LSB(x)
-#define IS_ODD(x) (x & 1)
+#define D_PI 3.14159265358979323846f
+#define D_ABS(val) ((val) < 0) ? -(val) : (val)
+#define D_AREA(l, w) (l * w)
+#define D_AVERAGE(val1, val2) (((double)(val1) + (val2)) / 2.0)
+#define D_BIT_CHK(bit, reg) ((reg >> (bit)) & 1)
+#define D_BIT_CLR(value, bit) ((value) &= ~(1L << (bit)))
+#define D_BIT_LSB(reg) ((reg) & 1)
+#define D_BIT_SET(value, bit) ((value) |= (1L << (bit)))
+#define D_CIRCUMFERENCE(radius) (PI * radious * radious) // circle circumference
+#define D_IN_RANGE(x, lo, hi) (((x > lo) && (x < hi)) || (x == lo) || (x == hi))
+#define D_IS_EVEN(x) !BIT_LSB(x)
+#define D_IS_ODD(x) (x & 1)
 
-#define MAX(a, b)                                                              \
+#define D_MAX(a, b)                                                            \
     ({                                                                         \
         __typeof__(a) _a = (a);                                                \
         __typeof__(b) _b = (b);                                                \
         _a > _b ? _a : _b;                                                     \
     })
 
-#define MIN(a, b)                                                              \
+#define D_MIN(a, b)                                                            \
     ({                                                                         \
         __typeof__(a) _a = (a);                                                \
         __typeof__(b) _b = (b);                                                \
         _a < _b ? _a : _b;                                                     \
     })
 
-#define PERCENT(val, per) ((val) * (per) / 100.0)
-#define RAND_INT(min, max) ((rand() % (int)(((max) + 1) - (min))) + (min))
-#define SIZE(x) (sizeof(x) / sizeof(x[0]))
-#define SUM(a, b) (a + b)
-#define XOR_SWAP(a, b)                                                         \
+#define D_PERCENT(val, per) ((val) * (per) / 100.0)
+#define D_RAND_INT(min, max) ((rand() % (int)(((max) + 1) - (min))) + (min))
+#define D_SIZE(x) (sizeof(x) / sizeof(x[0]))
+#define D_SUM(a, b) (a + b)
+#define D_XOR_SWAP(a, b)                                                       \
     do {                                                                       \
         (a) ^= (b);                                                            \
         (b) ^= (a);                                                            \
         (a) ^= (b);                                                            \
     } while (0)
 
-#define PRINT_CHAR(x) printf("%c", x) // print char
-#define PRINT_STR(x) printf("%s", x)  // print string of characters
+#define D_PRINT_CHAR(x) printf("%c", x) // print char
+#define D_PRINT_STR(x) printf("%s", x)  // print string of characters
 
 // integer
-#define INPUT_INT(x) scanf("%d", &x)     // int
-#define INPUT_SHORT(x) scanf("%hd", &x)  // short int
-#define INPUT_LINT(x) scanf("%ld", &x)   // lont int
-#define INPUT_LLINT(x) scanf("%lld", &x) // long long int
-#define INPUT_OCT(x) scanf("%o", &x)     // octal
-#define INPUT_HEX(x) scanf("%x", &x)     // hexadecimal
-#define INPUT_UINT(x) scanf("%u", &x)    // unsigned int
+#define D_INPUT_INT(x) scanf("%d", &x)     // int
+#define D_INPUT_SHORT(x) scanf("%hd", &x)  // short int
+#define D_INPUT_LINT(x) scanf("%ld", &x)   // lont int
+#define D_INPUT_LLINT(x) scanf("%lld", &x) // long long int
+#define D_INPUT_OCT(x) scanf("%o", &x)     // octal
+#define D_INPUT_HEX(x) scanf("%x", &x)     // hexadecimal
+#define D_INPUT_UINT(x) scanf("%u", &x)    // unsigned int
 
-#define PRINT_INT(x) printf("%d", x)     // int
-#define PRINT_SHORT(x) printf("%hd", x)  // short int
-#define PRINT_LINT(x) printf("%ld", x)   // long int
-#define PRINT_LLINT(x) printf("%lld", x) // long long int
-#define PRINT_OCT(x) printf("%o", x)     // octal without leading zeros
-#define PRINT_HEX(x) printf("%x", x)     // hexadecimal
-#define PRINT_UINT(x) printf("%u", x)    // unsigned int
+#define D_PRINT_INT(x) printf("%d", x)     // int
+#define D_PRINT_SHORT(x) printf("%hd", x)  // short int
+#define D_PRINT_LINT(x) printf("%ld", x)   // long int
+#define D_PRINT_LLINT(x) printf("%lld", x) // long long int
+#define D_PRINT_OCT(x) printf("%o", x)     // octal without leading zeros
+#define D_PRINT_HEX(x) printf("%x", x)     // hexadecimal
+#define D_PRINT_UINT(x) printf("%u", x)    // unsigned int
 
 // floating point
-#define INPUT_FLOAT(x) scanf("%f", &x)    // float
-#define INPUT_DOUBLE(x) scanf("%lf", &x)  // double
-#define INPUT_LDOUBLE(x) scanf("%Lf", &x) // long double
-#define INPUT_FLOATEXP(x) scanf("%e", &x) // floating point exponent
+#define D_INPUT_FLOAT(x) scanf("%f", &x)    // float
+#define D_INPUT_DOUBLE(x) scanf("%lf", &x)  // double
+#define D_INPUT_LDOUBLE(x) scanf("%Lf", &x) // long double
+#define D_INPUT_FLOATEXP(x) scanf("%e", &x) // floating point exponent
 
-#define PRINT_FLOAT(x) printf("%f", x)    // float
-#define PRINT_DOUBLE(x) printf("%lf", x)  // double
-#define PRINT_LDOUBLE(x) printf("%Lf", x) // long double
-#define PRINT_FLOATEXP(x) printf("%e", x) // floating point exponent
+#define D_PRINT_FLOAT(x) printf("%f", x)    // float
+#define D_PRINT_DOUBLE(x) printf("%lf", x)  // double
+#define D_PRINT_LDOUBLE(x) printf("%Lf", x) // long double
+#define D_PRINT_FLOATEXP(x) printf("%e", x) // floating point exponent
 
 // rounded integer division:
 
-#define FLOOR_DIV(x, y) ((x) / (y))
-#define CEIL_DIV(x, y) FLOOR_DIV((x) + (y - 1), y)
-#define ROUND_DIV(x, y) FLOOR_DIV((x) + (y) / 2, y)
+#define D_FLOOR_DIV(x, y) ((x) / (y))
+#define D_CEIL_DIV(x, y) FLOOR_DIV((x) + (y - 1), y)
+#define D_ROUND_DIV(x, y) FLOOR_DIV((x) + (y) / 2, y)
 
-#define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
+#define D_OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
 
-#define SWAP(a, b)                                                             \
+#define D_SWAP(a, b)                                                           \
     do {                                                                       \
         __typeof__(a) _a = (a);                                                \
         __typeof__(b) _b = (b);                                                \
@@ -143,12 +146,12 @@ extern "C" {
         (b) = _a;                                                              \
     } while (0)
 
-#define STR(x) #x
+#define D_STR(x) #x
 
 typedef unsigned char BYTE; // name BYTE for one-byte numbers
 
 // press any key (linux & ms windows)
-#define PRESSKEY                                                               \
+#define D_PRESSKEY                                                             \
     printf("\n\t Press any key to continue...");                               \
     while (1) {                                                                \
         if (getc(stdin)) {                                                     \
@@ -266,14 +269,47 @@ typedef unsigned char BYTE; // name BYTE for one-byte numbers
 #define D_AEC_LINE_WRAP_ON "\x1b[?7h"
 #define D_AEC_LINE_WRAP_OFF "\x1b[?7l"
 
-typedef struct {
-    int member1;
-    float member2;
-} my_struct_t;
+//------------------------------------------------------------------------------
+// d_location.c
+//------------------------------------------------------------------------------
 
-typedef enum { VALUE1, VALUE2, VALUE3 } my_enum_t;
+struct d_location {
+    char *file;
+    unsigned int line;
+    char *function;
+};
 
-int my_function(int param1, int param2);
+extern struct d_location *d_location_create(struct d_location *location,
+                                            const char *file, unsigned int line,
+                                            const char *function);
+extern void d_location_memory_dump(struct d_location *location);
+extern void d_location_destroy(struct d_location *location);
+
+//------------------------------------------------------------------------------
+// d_mem_debug.c
+//------------------------------------------------------------------------------
+
+#ifdef D_MEMORY_DEBUG_ENABLE
+#endif // D_MEMORY_DEBUG_ENABLE
+
+extern void d_mem_debug_create(void);
+extern void d_mem_debug_malloc(const char *file, unsigned int line,
+                               const char *function, void *pointer,
+                               size_t size);
+extern void d_mem_debug_realloc(void);
+extern void d_mem_debug_calloc(void);
+extern void d_mem_debug_free(void);
+extern void d_mem_debug_report(void);
+extern void d_mem_debug_memory_dump(void);
+extern void d_mem_debug_destroy(void);
+
+//------------------------------------------------------------------------------
+// d_log.c
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// d_math.c
+//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 // Data Structures
@@ -284,7 +320,7 @@ int my_function(int param1, int param2);
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-// Bit Fiddling (Int)
+// d_bit_fiddling.c
 //------------------------------------------------------------------------------
 
 extern int d_count_bits(int n);
@@ -295,47 +331,3 @@ extern int d_compute_parity(int n);
 #endif // __cplusplus
 
 #endif // __DRAGON_H__
-
-//------------------------------------------------------------------------------
-// SEMANTIC VERSIONING
-//------------------------------------------------------------------------------
-
-/*
- * [Semantic Versioning 2.0.0](https://semver.org/)
- *
- * Given a version number MAJOR.MINOR.PATCH, increment the:
- * 1. MAJOR version when you make incompatible API changes
- * 2. MINOR version when you add functionality in a backward compatible manner
- * 3. PATCH version when you make backward compatible bug fixes
- *
- * Additional labels for pre-release and build metadata are available as
- * extensions to the MAJOR.MINOR.PATCH format.
- */
-
-//------------------------------------------------------------------------------
-// MIT LICENSE
-//------------------------------------------------------------------------------
-
-/*
- * [The MIT License](https://opensource.org/license/mit)
- *
- * Copyright (c) 2025 Ragib Asif
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
