@@ -12,17 +12,15 @@
  *
  */
 
-#include "dragon.h"
+// #include "dragon.h"
+#include "tests/dragon_tests.h"
 #include "third_party/internal_debug.h"
 
 int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
 
-    struct d_location *location;
-    location = d_location_create(location, __FILE__, __LINE__, __func__);
-    d_location_memory_dump(location);
-    d_location_destroy(location);
+    d_location_test();
 
     forge_run();
     return 0;
