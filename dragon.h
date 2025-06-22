@@ -308,41 +308,41 @@ extern void d_mem_debug_destroy(void);
 //------------------------------------------------------------------------------
 
 enum d_log_type {
-    D_INFO_TYPE = 0,
-    D_DEBUG_TYPE = 1,
-    D_TRACE_TYPE = 2,
-    D_WARNING_TYPE = 3,
-    D_ERROR_TYPE = 4,
-    D_FATAL_TYPE = 5,
-    D_COUNT_TYPE = 6
+    D_LT_INFO = 0,
+    D_LT_DEBUG = 1,
+    D_LT_TRACE = 2,
+    D_LT_WARNING = 3,
+    D_LT_ERROR = 4,
+    D_LT_FATAL = 5,
+    D_LT_COUNT = 6
 };
 
 extern void d_log_create(const char *file);
 extern void d_log_destroy();
 
-extern void d_set_log_level(enum d_log_type level);
+extern void d_log_set_level(enum d_log_type level);
 extern void d_log_message(enum d_log_type level, const char *file,
                           unsigned int line, const char *function,
                           const char *format, ...);
 
 #define D_LOG_INFO(format, ...)                                                \
-    log_message(D_INFO_TYPE, __FILE__, __LINE__, __func__, format,             \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_INFO, __FILE__, __LINE__, __func__, format,             \
+                  ##__VA_ARGS__)
 #define D_LOG_DEBUG(format, ...)                                               \
-    log_message(D_DEBUG_TYPE, __FILE__, __LINE__, __func__, format,            \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_DEBUG, __FILE__, __LINE__, __func__, format,            \
+                  ##__VA_ARGS__)
 #define D_LOG_TRACE(format, ...)                                               \
-    log_message(D_TRACE_TYPE, __FILE__, __LINE__, __func__, format,            \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_TRACE, __FILE__, __LINE__, __func__, format,            \
+                  ##__VA_ARGS__)
 #define D_LOG_WARNING(format, ...)                                             \
-    log_message(D_WARNING_TYPE, __FILE__, __LINE__, __func__, format,          \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_WARNING, __FILE__, __LINE__, __func__, format,          \
+                  ##__VA_ARGS__)
 #define D_LOG_ERROR(format, ...)                                               \
-    log_message(D_ERROR_TYPE, __FILE__, __LINE__, __func__, format,            \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_ERROR, __FILE__, __LINE__, __func__, format,            \
+                  ##__VA_ARGS__)
 #define D_LOG_FATAL(format, ...)                                               \
-    log_message(D_FATAL_TYPE, __FILE__, __LINE__, __func__, format,            \
-                ##__VA_ARGS__)
+    d_log_message(D_LT_FATAL, __FILE__, __LINE__, __func__, format,            \
+                  ##__VA_ARGS__)
 
 //------------------------------------------------------------------------------
 // d_math.c

@@ -8,19 +8,20 @@
  * Copyright (c) 2025 Ragib Asif
  * Version 1.0.0
  *
- * Entry point to the program.
  *
  */
 
-// #include "dragon.h"
-#include "tests/dragon_tests.h"
+#include "dragon.h"
 #include "third_party/internal_debug.h"
 
 int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
-
-    d_location_test();
+    d_log_create(NULL);
+    D_LOG_INFO("HELLO");
+    D_LOG_DEBUG("HELLO");
+    D_LOG_WARNING("HELLO");
+    d_log_destroy();
 
     forge_run();
     return 0;
