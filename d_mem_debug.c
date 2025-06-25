@@ -1,5 +1,5 @@
 /*
- * File: d_location.c
+ * File: d_mem_debug.c
  * Author: Ragib Asif
  * Email: ragib.asif30@myhunter.cuny.edu
  * GitHub: https://github.com/ragibasif
@@ -13,11 +13,17 @@
  *
  */
 
-#include "../dragon.h"
+#include "dragon.h"
 
-struct d_location *d_location_create(struct d_location *location,
-                                     const char *file, unsigned int line,
-                                     const char *function) {
+struct d_location {
+    char *file;
+    unsigned int line;
+    char *function;
+};
+
+static struct d_location *d_location_create(struct d_location *location,
+                                            const char *file, unsigned int line,
+                                            const char *function) {
     location = malloc(sizeof(*location));
     location->file = malloc((strlen(file) + 1) * sizeof(*location->file));
     memcpy(location->file, file, strlen(file));
@@ -30,16 +36,7 @@ struct d_location *d_location_create(struct d_location *location,
     return location;
 }
 
-void d_location_memory_dump(struct d_location *location) {
-    printf("%s = %s()\n", D_STR(__func__), __func__);
-    printf("%s [%p] {\n", D_STR(struct d_location), (void *)location);
-    printf("    %s = %s;\n", D_STR(file), location->file);
-    printf("    %s = %u;\n", D_STR(line), location->line);
-    printf("    %s = %s;\n", D_STR(function), location->function);
-    printf("};\n");
-}
-
-void d_location_destroy(struct d_location *location) {
+static void d_location_destroy(struct d_location *location) {
     free(location->file);
     location->file = NULL;
     free(location->function);
@@ -48,3 +45,14 @@ void d_location_destroy(struct d_location *location) {
     free(location);
     location = NULL;
 }
+
+extern void d_mem_debug_create(void);
+extern void *d_mem_debug_malloc(const char *file, unsigned int line,
+                                const char *function, void *pointer,
+                                size_t size);
+extern void *d_mem_debug_realloc(void);
+extern void *d_mem_debug_calloc(void);
+extern void d_mem_debug_free(void);
+extern void d_mem_debug_report(void);
+extern void d_mem_debug_memory_dump(void);
+extern void d_mem_debug_destroy(void);

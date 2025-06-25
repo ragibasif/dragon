@@ -16,10 +16,10 @@
  *
  */
 
-#include "../dragon.h"
+#include "dragon.h"
 
 // time: O(N)
-int d_count_bits(int n) {
+int d_bit_count(int n) {
     int num_bits = 0;
     while (n) {
         num_bits += n & 1;
@@ -32,7 +32,7 @@ int d_count_bits(int n) {
 // brute force method, time: O(N)
 // iteratively check the value of each bit and count ones
 // we only care if there are odd or even number of ones so store it mod 2
-int d_compute_parity(int n) {
+int d_bit_parity(int n) {
     int result = 0;
     while (n) {
         result ^= n & 1;

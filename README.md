@@ -1,40 +1,12 @@
-# dragon
+# Dragon
 
-> [!WARNING]
-> Still in active development.
+Dragon is a library that provides tools for rapid prototyping. It is implemented
+in C programming language and built for **educational and recreational purposes.**
 
-Dragon is an utility library implemented in C programming language for
-**educational and recreational purposes.**
-
-## Usage
-
-Clone the repository.
-
-```shell
-git clone git@github.com:ragibasif/dragon.git
-```
-
-Copy `dragon` to your project.
-
-```shell
-cp -r dragon /path/to/your/project/
-```
-
-Include `dragon` in your project.
-
-```c
-#include "dragon.h"
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/feature-name`)
-3. Make your changes and commit (`git commit -am 'Add new feature'`)
-4. Push to your fork (`git push origin feature/feature-name`)
-5. Open a pull request
-
-## License
-
-This project is licensed under the **MIT license**. See the [LICENSE](LICENSE) file
-for details.
+This is a low-level C library designed for experienced developers. **No build
+scripts, installation instructions, or documentation is provided.** You are
+expected to understand how to integrate C libraries into your own build system
+and link them manually as needed. As usage will vary greatly depending on the
+target platform, tool chain, and integration context, **there are no release
+build instructions or usage help messages.** You are expected to read the source
+code to understand its behavior and adapt it to your environment.

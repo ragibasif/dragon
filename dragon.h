@@ -8,12 +8,12 @@
  * Copyright (c) 2025 Ragib Asif
  * Version 1.0.0
  *
- * C utility library.
+ * Dragon API
  *
  */
 
-#ifndef __DRAGON_H__
-#define __DRAGON_H__
+#ifndef DRAGON_H_
+#define DRAGON_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,7 +52,7 @@ extern "C" {
 #include <string.h> // strlen, memcpy, strcpy
 #include <time.h>   // time
 
-#include "third_party/internal_debug.h" // internal mem debug and print debug
+#include "third_party_c/internal_debug.h" // internal mem debug and print debug
 
 //------------------------------------------------------------------------------
 // Utility Macros
@@ -150,7 +150,7 @@ extern "C" {
 
 typedef unsigned char BYTE; // name BYTE for one-byte numbers
 
-// press any key (linux & ms windows)
+// press any key (Linux & MS Windows)
 #define D_PRESSKEY                                                             \
     printf("\n\t Press any key to continue...");                               \
     while (1) {                                                                \
@@ -270,34 +270,18 @@ typedef unsigned char BYTE; // name BYTE for one-byte numbers
 #define D_AEC_LINE_WRAP_OFF "\x1b[?7l"
 
 //------------------------------------------------------------------------------
-// d_location.c
-//------------------------------------------------------------------------------
-
-struct d_location {
-    char *file;
-    unsigned int line;
-    char *function;
-};
-
-extern struct d_location *d_location_create(struct d_location *location,
-                                            const char *file, unsigned int line,
-                                            const char *function);
-extern void d_location_memory_dump(struct d_location *location);
-extern void d_location_destroy(struct d_location *location);
-
-//------------------------------------------------------------------------------
 // d_mem_debug.c
 //------------------------------------------------------------------------------
 
-#ifdef D_MEMORY_DEBUG_ENABLE
-#endif // D_MEMORY_DEBUG_ENABLE
+#ifdef D_MEMORY_DEBUG
+#endif // D_MEMORY_DEBUG
 
 extern void d_mem_debug_create(void);
-extern void d_mem_debug_malloc(const char *file, unsigned int line,
-                               const char *function, void *pointer,
-                               size_t size);
-extern void d_mem_debug_realloc(void);
-extern void d_mem_debug_calloc(void);
+extern void *d_mem_debug_malloc(const char *file, unsigned int line,
+                                const char *function, void *pointer,
+                                size_t size);
+extern void *d_mem_debug_realloc(void);
+extern void *d_mem_debug_calloc(void);
 extern void d_mem_debug_free(void);
 extern void d_mem_debug_report(void);
 extern void d_mem_debug_memory_dump(void);
@@ -325,7 +309,7 @@ extern void d_log_message(enum d_log_type level, const char *file,
                           unsigned int line, const char *function,
                           const char *format, ...);
 
-#define D_LOG_INFO(format, ...)                                                \
+#define D_LOG(format, ...)                                                     \
     d_log_message(D_LT_INFO, __FILE__, __LINE__, __func__, format,             \
                   ##__VA_ARGS__)
 #define D_LOG_DEBUG(format, ...)                                               \
@@ -345,26 +329,14 @@ extern void d_log_message(enum d_log_type level, const char *file,
                   ##__VA_ARGS__)
 
 //------------------------------------------------------------------------------
-// d_math.c
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Data Structures
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Algorithms
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
 // d_bit_fiddling.c
 //------------------------------------------------------------------------------
 
-extern int d_count_bits(int n);
-extern int d_compute_parity(int n);
+extern int d_bit_count(int n);
+extern int d_bit_parity(int n);
 
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif // __DRAGON_H__
+#endif // DRAGON_H_

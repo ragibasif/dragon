@@ -12,15 +12,18 @@
  */
 
 #include "dragon.h"
-#include "third_party/internal_debug.h"
+#include "third_party_c/internal_debug.h"
 
 int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
     d_log_create(NULL);
-    D_LOG_INFO("HELLO");
-    D_LOG_DEBUG("HELLO");
+    D_LOG("Welcome");
     D_LOG_WARNING("HELLO");
+    D_LOG_DEBUG("HELLO");
+    D_LOG_TRACE("HELLO");
+    D_LOG_ERROR("HELLO");
+    D_LOG_FATAL("HELLO");
     d_log_destroy();
 
     forge_run();

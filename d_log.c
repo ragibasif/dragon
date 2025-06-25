@@ -10,25 +10,29 @@
  *
  * Thread safe logging.
  *
- * References:
- *      - https://dev.to/scovl/creating-a-robust-logging-system-in-c-2fg6
+ * Compile the library with `-DD_LOG_COLOR` to print with ANSI color escape
+ * codes. If a log file is specified, ANSI color escape will be disabled
+ * regardless of the flag.
+ *
  */
 
-// TODO: External and Dynamic Configuration
-// TODO: Custom Log Formatting
-// TODO: Improve Error Handling
-// TODO: Refactor for Code consistency
-// TODO: Performance and Efficiency
-// TODO: Security Enhancement
-// TODO: Integrate with logging tools
-// TODO: Testing and Validation
-// TODO: Cross-platform logging
-
-#include "../dragon.h"
+#include "dragon.h"
 
 static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 static FILE *d_log_file = NULL;
 static enum d_log_type current_log_level = D_LT_INFO;
+
+static const char *level_strings[] = {
+    [D_LT_INFO] = "[INFO]",   [D_LT_DEBUG] = "[DEBUG]",
+    [D_LT_TRACE] = "[TRACE]", [D_LT_WARNING] = "[WARNING]",
+    [D_LT_ERROR] = "[ERROR]", [D_LT_FATAL] = "[FATAL]"};
+
+#ifdef D_LOG_COLOR
+static const char *level_colors[] = {
+    [D_LT_INFO] = D_AEC_GREEN,    [D_LT_DEBUG] = D_AEC_CYAN,
+    [D_LT_TRACE] = D_AEC_BLUE,    [D_LT_WARNING] = D_AEC_YELLOW,
+    [D_LT_ERROR] = D_AEC_MAGENTA, [D_LT_FATAL] = D_AEC_RED};
+#endif // D_LOG_COLOR
 
 void d_log_create(const char *file) {
     pthread_mutex_lock(&log_mutex);
@@ -70,19 +74,27 @@ void d_log_message(enum d_log_type level, const char *file, unsigned int line,
         pthread_mutex_unlock(&log_mutex);
         return;
     }
+
     time_t now;
     char *time_str;
     now = time(NULL);
     time_str = ctime(&now);
     time_str[strlen(time_str) - 1] = '\0';
 
-    const char *level_strings[] = {
-        [D_LT_INFO] = "[INFO]",   [D_LT_DEBUG] = "[DEBUG]",
-        [D_LT_TRACE] = "[TRACE]", [D_LT_WARNING] = "[WARNING]",
-        [D_LT_ERROR] = "[ERROR]", [D_LT_FATAL] = "[FATAL]"};
-
-    fprintf(d_log_file, "%s [%s:%d (%s)] %s ", time_str, file, line, function,
+#ifdef D_LOG_COLOR
+    if (d_log_file != stdout) {
+        // do not output colors if logging to file
+        fprintf(d_log_file, "%s [%s:%u (%s)] %s ", time_str, file, line,
+                function, level_strings[level]);
+    } else {
+        fprintf(d_log_file, "%s%s [%s:%u (%s)]%s %s%s%s%s ", D_AEC_DIM,
+                time_str, file, line, function, D_AEC_RESET, D_AEC_BOLD,
+                level_colors[level], level_strings[level], D_AEC_RESET);
+    }
+#else
+    fprintf(d_log_file, "%s [%s:%u (%s)] %s ", time_str, file, line, function,
             level_strings[level]);
+#endif // D_LOG_COLOR
 
     va_list args;
     va_start(args, format);
@@ -91,5 +103,6 @@ void d_log_message(enum d_log_type level, const char *file, unsigned int line,
 
     fprintf(d_log_file, "\n");
     fflush(d_log_file);
+
     pthread_mutex_unlock(&log_mutex);
 }
