@@ -11,21 +11,26 @@
  *
  */
 
-#include "dragon.h"
+#include "log.h"
 #include "third_party_c/internal_debug.h"
+
+void log_demo(void) {
+    int port = 8080;
+    size_t i = 32;
+    char *filename = "output.txt";
+    log_initialize(NULL);
+    LOG_INFO("Server running on port %d.", port);
+    LOG_WARN("Low memory detected.");
+    LOG_DEBUG("Loop iteration: %u", i);
+    LOG_ERROR("File not found - %s.", filename);
+    log_finalize();
+}
 
 int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
-    d_log_create(NULL);
-    D_LOG("Welcome");
-    D_LOG_WARNING("HELLO");
-    D_LOG_DEBUG("HELLO");
-    D_LOG_TRACE("HELLO");
-    D_LOG_ERROR("HELLO");
-    D_LOG_FATAL("HELLO");
-    d_log_destroy();
 
+    log_demo();
     forge_run();
     return 0;
 }
