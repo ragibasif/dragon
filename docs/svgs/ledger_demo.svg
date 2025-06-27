@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="476.67" height="419.00" xmlns="http://www.w3.org/2000/svg">
+<svg width="443.33" height="251.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,29 +8,19 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="476.67" height="419.00" fill="#0d1117" x="0.00px" y="0.00px"/>
+</style><rect width="443.33" height="251.00" fill="#0d1117" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#e6edf3" clip-path="url(#terminalMask)">
-<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#8b949e" font-weight="bold" font-style="italic">#include</tspan> <tspan fill="#8b949e" font-weight="bold" font-style="italic">&quot;log.h&quot;</tspan><tspan fill="#8b949e" font-weight="bold" font-style="italic">
-</tspan></text><text x="20.00px" y="53.60px" xml:space="preserve"><tspan fill="#8b949e" font-weight="bold" font-style="italic">#include</tspan> <tspan fill="#8b949e" font-weight="bold" font-style="italic">&quot;shared.h&quot;</tspan><tspan fill="#8b949e" font-weight="bold" font-style="italic">
-</tspan></text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#8b949e" font-weight="bold" font-style="italic"/>
-</text><text x="20.00px" y="87.20px" xml:space="preserve"><tspan fill="#ff7b72">void</tspan> <tspan fill="#d2a8ff" font-weight="bold">log_demo</tspan>(<tspan fill="#ff7b72">void</tspan>) {
-</text><text x="20.00px" y="104.00px" xml:space="preserve">    <tspan fill="#ff7b72">int</tspan> port <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">8080</tspan>;
-</text><text x="20.00px" y="120.80px" xml:space="preserve">    <tspan fill="#ff7b72">size_t</tspan> i <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">32</tspan>;
-</text><text x="20.00px" y="137.60px" xml:space="preserve">    <tspan fill="#ff7b72">char</tspan> <tspan fill="#ff7b72" font-weight="bold">*</tspan>filename <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">&quot;output.txt&quot;</tspan>;
-</text><text x="20.00px" y="154.40px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">log_initialize</tspan>(NULL);
-</text><text x="20.00px" y="171.20px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">LOG_INFO</tspan>(<tspan fill="#a5d6ff">&quot;Server running on port %d.&quot;</tspan>, port);
-</text><text x="20.00px" y="188.00px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">LOG_WARN</tspan>(<tspan fill="#a5d6ff">&quot;Low memory detected.&quot;</tspan>);
-</text><text x="20.00px" y="204.80px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">LOG_DEBUG</tspan>(<tspan fill="#a5d6ff">&quot;Loop iteration: %u&quot;</tspan>, i);
-</text><text x="20.00px" y="221.60px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">LOG_ERROR</tspan>(<tspan fill="#a5d6ff">&quot;File not found - %s.&quot;</tspan>, filename);
-</text><text x="20.00px" y="238.40px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">log_finalize</tspan>();
-</text><text x="20.00px" y="255.20px" xml:space="preserve">}
-</text><text x="20.00px" y="272.00px" xml:space="preserve">
-</text><text x="20.00px" y="288.80px" xml:space="preserve"><tspan fill="#ff7b72">int</tspan> <tspan fill="#d2a8ff" font-weight="bold">main</tspan>(<tspan fill="#ff7b72">int</tspan> argc, <tspan fill="#ff7b72">char</tspan> <tspan fill="#ff7b72" font-weight="bold">**</tspan>argv) {
-</text><text x="20.00px" y="305.60px" xml:space="preserve">
-</text><text x="20.00px" y="322.40px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">log_demo</tspan>();
-</text><text x="20.00px" y="339.20px" xml:space="preserve">
-</text><text x="20.00px" y="356.00px" xml:space="preserve">    <tspan fill="#ff7b72">return</tspan> <tspan fill="#a5d6ff">0</tspan>;
-</text><text x="20.00px" y="372.80px" xml:space="preserve">}
+<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff7b72">void</tspan> <tspan fill="#d2a8ff" font-weight="bold">ledger_demo</tspan>(<tspan fill="#ff7b72">void</tspan>) {
+</text><text x="20.00px" y="53.60px" xml:space="preserve">    <tspan fill="#ff7b72">int</tspan> port <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">8080</tspan>;
+</text><text x="20.00px" y="70.40px" xml:space="preserve">    <tspan fill="#ff7b72">size_t</tspan> i <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">32</tspan>;
+</text><text x="20.00px" y="87.20px" xml:space="preserve">    <tspan fill="#ff7b72">char</tspan> <tspan fill="#ff7b72" font-weight="bold">*</tspan>filename <tspan fill="#ff7b72" font-weight="bold">=</tspan> <tspan fill="#a5d6ff">&quot;output.txt&quot;</tspan>;
+</text><text x="20.00px" y="104.00px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">l_init</tspan>(NULL);
+</text><text x="20.00px" y="120.80px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">INFO</tspan>(<tspan fill="#a5d6ff">&quot;Server running on port %d.&quot;</tspan>, port);
+</text><text x="20.00px" y="137.60px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">WARN</tspan>(<tspan fill="#a5d6ff">&quot;Low memory detected.&quot;</tspan>);
+</text><text x="20.00px" y="154.40px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">DEBUG</tspan>(<tspan fill="#a5d6ff">&quot;Loop iteration: %u&quot;</tspan>, i);
+</text><text x="20.00px" y="171.20px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">ERROR</tspan>(<tspan fill="#a5d6ff">&quot;File not found - %s.&quot;</tspan>, filename);
+</text><text x="20.00px" y="188.00px" xml:space="preserve">    <tspan fill="#d2a8ff" font-weight="bold">l_fin</tspan>();
+</text><text x="20.00px" y="204.80px" xml:space="preserve">}
 </text>
 </g>
 </svg>

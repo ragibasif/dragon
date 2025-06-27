@@ -5,8 +5,8 @@ software.
 
 Disclaimer: **For educational and recreational purposes only.**
 
-## log.c/log.h
+## ledger.c/ledger.h
 
-![log demo code](./docs/svgs/demo_log.svg)
+![ledger demo code](./docs/svgs/ledger_demo.svg)
 
-![log demo gif](./docs/gifs/demo_log.gif)
+![ledger demo gif](./docs/gifs/ledger_demo.gif)
