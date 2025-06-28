@@ -5,8 +5,5 @@ software.
 
 Disclaimer: **For educational and recreational purposes only.**
 
-## ledger.c/ledger.h
-
-![ledger demo code](./docs/svgs/ledger_demo.svg)
-
-![ledger demo gif](./docs/gifs/ledger_demo.gif)
+- [ledger](https://github.com/ragibasif/ledger?tab=readme-ov-file) - a minimal C
+  logging library

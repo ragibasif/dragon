@@ -1,5 +1,5 @@
 /*
- * File: dml.c
+ * File: watchdog.c
  * Author: Ragib Asif
  * Email: ragib.asif30@myhunter.cuny.edu
  * GitHub: https://github.com/ragibasif
@@ -11,8 +11,7 @@
  *
  */
 
-#include "log.h"
-#include "shared.h"
+#include "watchdog.h"
 
 struct location {
     char *file;
@@ -80,7 +79,7 @@ struct allocation_data {
 
 static struct allocation_data mem_data;
 
-void mem_log_create(void) {
+void w_create(void) {
     mem_data.allocation_head = NULL;
     mem_data.free_head = NULL;
     mem_data.total_bytes_allocated = 0;
@@ -88,11 +87,12 @@ void mem_log_create(void) {
     mem_data.total_allocations = 0;
     mem_data.total_frees = 0;
 }
-void *mem_log_malloc(const char *file, unsigned int line, const char *function,
-                     void *pointer, size_t size);
-void *mem_log_realloc(void);
-void *mem_log_calloc(void);
-void mem_log_free(void);
-void mem_log_report(void);
-void mem_log_memory_dump(void);
-void mem_log_destroy(void);
+
+void *w_malloc(const char *file, unsigned int line, const char *function,
+               void *pointer, size_t size);
+void *w_realloc(void);
+void *w_calloc(void);
+void w_free(void);
+void w_report(void);
+void w_dump(void);
+void w_destroy(void);
