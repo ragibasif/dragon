@@ -24,7 +24,7 @@ CC := gcc
 CFLAGS := -std=c99 #-Wall -Wextra -Weverything -Wvla -O1 -g3 -pedantic -v -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 CFLAGS += -DL_COLOR
 DBG = gdb
-LDFLAGS := -v -lc -lpthread
+LDFLAGS := -v -lc -lpthread -lm
 
 BUILD_DIRECTORY := build
 
